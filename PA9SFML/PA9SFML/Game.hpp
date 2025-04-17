@@ -9,23 +9,20 @@ public:
 	Game();
 	~Game();
 
-	//for now running the window and init is in this function
+	//for now running the window
+	//the run function will just call update and render in the future
 	void run();
 
 private:
 	
 	//functions
 
-	//init
-	//will have to use when there are more functions but for now everything is in run()
-	void initVars();
-	void initWindow();
-	void initResources();
-	void initEntities();
+	//init all vars
+	void init();
 
 	// 
 	void handleInput();
-	//will need sub functions like updatePlayer, renderPlatform, etc.
+	//will need sub functions like updatePlayer, renderPlatform, etc
 	void update();
 	void render();
 

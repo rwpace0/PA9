@@ -3,7 +3,7 @@
 
 Game::Game()
 {
-	//call init function
+    init();
 }
 Game::~Game() {
 	// function to clean up everything
@@ -25,4 +25,24 @@ void Game::run()
         window.clear();
         window.display();
     }
+}
+
+// init all vars
+void Game::init() {
+    this->window = nullptr;
+    
+}
+
+void Game::handleInput() {
+
+}
+
+void Game::update()
+{
+    //call all update functions
+}
+
+void Game::render()
+{
+    //call all render functions
 }
