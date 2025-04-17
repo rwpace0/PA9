@@ -1,21 +1,10 @@
-#include "Header.hpp"
+#include "Game.hpp"
 
 int main()
 {
-    RenderWindow window(VideoMode({ windowWidth, windowHeight }), "Game Name");
-    CircleShape shape(100.f);
-    shape.setFillColor(Color::Green);
+    Game game;
 
-    while (window.isOpen())
-    {
-        while (const optional event = window.pollEvent())
-        {
-            if (event->is<Event::Closed>())
-                window.close();
-        }
+    game.run();
 
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
+    return 0;
 }
