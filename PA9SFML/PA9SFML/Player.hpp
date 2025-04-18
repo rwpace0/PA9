@@ -6,23 +6,19 @@ class Player : public Entity {
 public:
 	Player();
 
-	void handleInput();
+	// sprite movement
 	void update(Time dt) override;
+	//put sprite on screen
 	void draw(RenderTarget & target) const override;
 
-	//Animation
-
-	//Movement
-
-	//core
-
 private:
+
 	void initSprite();
 	void initTexture();
 	void initStartPos();
 
-	Texture texture;
-	Vector2f startPos;
-	
+	Texture texture; // sprite texture
+	Vector2f startPos; // sprite spawn
+
 };
 #endif

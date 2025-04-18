@@ -25,8 +25,6 @@ private:
 	//variables
 	RenderWindow window;
 	Player player;
-	// other variables for input, textures, ui, etc will go here
-
 
 };
 

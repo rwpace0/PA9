@@ -11,7 +11,9 @@ public:
 	virtual void draw(RenderTarget& target) const = 0;
 	
 protected:
+	//optional makes sprite a pointer
 	optional<Sprite> sprite;
+	//velocity of the movement
 	Vector2f velocity;
 };
 

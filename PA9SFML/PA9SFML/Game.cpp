@@ -44,7 +44,7 @@ void Game::update(Time dt)
         }
 
     }
-
+    
     player.update(dt);
 }
 
