@@ -1,48 +1,74 @@
 #pragma once
 #include "Game.hpp"
 
-Game::Game()
-{
-    init();
+Game::Game() {
+    sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+    window.create(desktopMode, "Game Name", Style::None);
+    window.setFramerateLimit(frameLimit);
+
+    // Create a floor at the bottom of the screen
+    platforms.emplace_back(
+        sf::Vector2f(0, 850),  // Position (x, y)
+        sf::Vector2f(800, 50)  // Size (width, height)
+    );
 }
+
 Game::~Game() {
 	// function to clean up everything
 }
 
-//window init and event handling is in here for now but separate functions will be created to handle these
+
 void Game::run()
 {
-    RenderWindow window(VideoMode({ windowWidth, windowHeight }), "Game Name");
+    Clock clock;
 
     while (window.isOpen())
     {
-        while (const optional event = window.pollEvent())
-        {
-            if (event->is<Event::Closed>())
-                window.close();
-        }
+        Time dt = clock.restart();
 
-        window.clear();
-        window.display();
+        update(dt);
+        render();
     }
 }
 
-// init all vars
-void Game::init() {
-    this->window = nullptr;
+void Game::updatePlayer()
+{
     
 }
 
-void Game::handleInput() {
-
+void Game::renderPlayer()
+{
+    player.draw(window);
 }
 
-void Game::update()
-{
-    //call all update functions
+void Game::update(Time dt) {
+    while (const optional event = window.pollEvent()) {
+        if (event->is<Event::Closed>()) {
+            window.close();
+        }
+    }
+
+    player.update(dt);
+
+    // Handle collisions between the player and platforms
+    for (auto& platform : platforms) {
+        if (Physics::AABB(player.physics.getBounds(), platform.getBounds())) {
+            Physics::resolveCollision(player.physics, platform.getBounds());
+        }
+    }
 }
 
-void Game::render()
-{
-    //call all render functions
+
+void Game::render() {
+    window.clear();
+
+    // Draw platforms
+    for (auto& platform : platforms) {
+        platform.draw(window);
+    }
+
+    // Draw the player
+    renderPlayer();
+
+    window.display();
 }

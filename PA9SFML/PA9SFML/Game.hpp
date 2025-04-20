@@ -2,6 +2,8 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 #include "Header.hpp"
+#include "Player.hpp"
+#include "Platform.hpp"
 
 class Game {
 public:
@@ -10,27 +12,22 @@ public:
 	~Game();
 
 	//for now running the window
-	//the run function will just call update and render in the future
 	void run();
 
 private:
 	
 	//functions
+	void updatePlayer();
+	void renderPlayer();
+	void renderPlatforms();
 
-	//init all vars
-	void init();
-
-	// 
-	void handleInput();
-	//will need sub functions like updatePlayer, renderPlatform, etc
-	void update();
+	void update(Time dt);
 	void render();
 
 	//variables
-	RenderWindow* window;
-
-	// other variables for input, textures, ui, etc will go here
-
+	RenderWindow window;
+	Player player;
+	std::vector<Platform> platforms;
 
 };
 
