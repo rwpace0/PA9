@@ -3,56 +3,46 @@
 
 Game::Game()
 {
-    window.create(VideoMode({ windowWidth, windowHeight }), "Game Name");
-    window.setFramerateLimit(frameLimit);
+    init();
 }
 Game::~Game() {
 	// function to clean up everything
 }
 
-
+//window init and event handling is in here for now but separate functions will be created to handle these
 void Game::run()
 {
-    Clock clock;
+    RenderWindow window(VideoMode({ windowWidth, windowHeight }), "Game Name");
 
     while (window.isOpen())
     {
-        Time dt = clock.restart();
-
-        update(dt);
-        render();
-    }
-}
-
-void Game::updatePlayer()
-{
-    
-}
-
-void Game::renderPlayer()
-{
-    player.draw(window);
-}
-
-void Game::update(Time dt)
-{
-    
-    while (const optional event = window.pollEvent()) {
-
-        if (event->is<Event::Closed>()) {
-            window.close();
+        while (const optional event = window.pollEvent())
+        {
+            if (event->is<Event::Closed>())
+                window.close();
         }
 
+        window.clear();
+        window.display();
     }
+}
+
+// init all vars
+void Game::init() {
+    this->window = nullptr;
     
-    player.update(dt);
+}
+
+void Game::handleInput() {
+
+}
+
+void Game::update()
+{
+    //call all update functions
 }
 
 void Game::render()
 {
-    window.clear();
-
-    renderPlayer();
-
-    window.display();
+    //call all render functions
 }
