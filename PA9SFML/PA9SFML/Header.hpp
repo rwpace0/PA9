@@ -14,6 +14,7 @@ const unsigned frameLimit = 60;
 #include <SFML/Audio.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
+#include <sstream>
 
 using namespace sf;
 using std::cin;

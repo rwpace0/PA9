@@ -2,6 +2,7 @@
 #include "Game.hpp"
 
 Game::Game() {
+
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     window.create(desktopMode, "Game Name", Style::None);
     window.setFramerateLimit(frameLimit);
@@ -19,20 +20,24 @@ Game::Game() {
         sf::Vector2f(100, 750),  // Position (x, y)
         sf::Vector2f(200, 50)  // Size (width, height)
     );
+    initTime();
 }
 
 Game::~Game() {
-	// function to clean up everything
+
+    delete timeText;
+	
 }
 
 
 void Game::run()
 {
-    Clock clock;
+    deltaClock.restart();
+    gameClock.restart();
 
     while (window.isOpen())
     {
-        Time dt = clock.restart();
+        Time dt = deltaClock.restart();
 
         update(dt);
         render();
@@ -47,6 +52,40 @@ void Game::updatePlayer()
 void Game::renderPlayer()
 {
     player.draw(window);
+}
+
+void Game::initTime()
+{
+    if (!font.openFromFile("Fonts/pixelfont.otf")) {
+        throw std::runtime_error("Failed to Pixel Font");
+    }
+    
+    timeText = new Text(font,"Time", 100);
+    timeText->setFillColor(Color::White);
+    
+    updateTime();
+}
+
+void Game::updateTime()
+{
+    float seconds = gameClock.getElapsedTime().asSeconds();
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(2) << seconds; // display it to the screen as a string
+    timeText->setString(ss.str());
+
+    // CENTER TEXT
+    FloatRect bounds = timeText->getLocalBounds();
+    Vector2f newOrigin{
+        (bounds.position.x + bounds.size.x) * 0.5f, bounds.position.y
+    };
+    timeText->setOrigin(newOrigin);
+
+
+    sf::Vector2f pos{
+        static_cast<float>(window.getSize().x) * 0.5f,
+        10.f
+    };
+    timeText->setPosition(pos);
 }
 
 void Game::update(Time dt) {
@@ -64,6 +103,7 @@ void Game::update(Time dt) {
             Physics::resolveCollision(player.physics, platform.getBounds());
         }
     }
+    updateTime();
 }
 
 
@@ -77,6 +117,8 @@ void Game::render() {
 
     // Draw the player
     renderPlayer();
+
+    window.draw(*timeText);
 
     window.display();
 }
