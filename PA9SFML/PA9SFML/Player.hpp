@@ -1,30 +1,24 @@
-#ifndef PLAYER_HPP
-#define PLAYER_HPP
+#pragma once
 #include "Entity.hpp"
 #include "physics.hpp"
 
 class Player : public Entity {
 public:
-	Player();
+    Player();
 
-	// sprite movement
-	void update(Time dt) override;
-	//put sprite on screen
-	void draw(RenderTarget & target) const override;
-	//jump function
-	void jump(float force);
+    void update(sf::Time dt) override;
+    void draw(sf::RenderTarget& target) const override;
+    void jump(float force);
 
-	PhysicsComponent physics; //physics "tag" basically
+    PhysicsComponent physics;
 
 private:
+    void initSprite();
+    void initTexture();
+    void initStartPos();
 
-	void initSprite();
-	void initTexture();
-	void initStartPos();
-
-	Texture texture; // sprite texture
-	Vector2f startPos; // sprite spawn
-	const float JUMP_FORCE = -6.f;//give it initial jump force
-
+    sf::Texture texture;
+    std::optional<sf::Sprite> sprite;
+    sf::Vector2f startPos;
+    const float JUMP_FORCE = -600.f;
 };
-#endif

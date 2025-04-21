@@ -14,6 +14,15 @@ struct PhysicsComponent {
         return sf::FloatRect(position, size);
     }
 
+    sf::RectangleShape getDebugShape() const {
+        sf::RectangleShape shape(size);
+        shape.setPosition(position);
+        shape.setFillColor(sf::Color(255, 0, 0, 150)); // Semi-transparent red
+        shape.setOutlineThickness(1.f);
+        shape.setOutlineColor(sf::Color::Red);
+        return shape;
+    }
+
     void update(float deltaTime, const sf::Vector2f& gravity) {
         if (receivesGravity) acceleration += gravity;
         velocity += acceleration * deltaTime;
@@ -28,4 +37,7 @@ namespace Physics {
 
     // SFML 3.0+ collision resolution   
     void resolveCollision(PhysicsComponent& dynamic, const sf::FloatRect& staticObj);
+
+    //Debug the hitbox
+    void drawDebug(sf::RenderTarget& target, const PhysicsComponent& phys);
 }

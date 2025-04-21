@@ -35,3 +35,7 @@ void Physics::resolveCollision(PhysicsComponent& dynamic, const sf::FloatRect& s
         dynamic.isGrounded = (overlapTop < overlapBottom && dynamic.velocity.y >= 0);
     }
 }
+
+void Physics::drawDebug(sf::RenderTarget& target, const PhysicsComponent& phys) {
+    target.draw(phys.getDebugShape());
+}

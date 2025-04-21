@@ -11,6 +11,14 @@ Game::Game() {
         sf::Vector2f(0, 850),  // Position (x, y)
         sf::Vector2f(800, 50)  // Size (width, height)
     );
+    platforms.emplace_back(
+        sf::Vector2f(700, 750),  // Position (x, y)
+        sf::Vector2f(400, 50)  // Size (width, height)
+    );
+    platforms.emplace_back(
+        sf::Vector2f(100, 750),  // Position (x, y)
+        sf::Vector2f(200, 50)  // Size (width, height)
+    );
 }
 
 Game::~Game() {
