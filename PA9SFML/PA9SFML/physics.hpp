@@ -2,42 +2,62 @@
 #include <SFML/Graphics.hpp>
 
 struct PhysicsComponent {
-    sf::Vector2f position;  // Top-left corner
-    sf::Vector2f size;      // Width/height
+    sf::Vector2f position;
+    sf::Vector2f size;
     sf::Vector2f velocity;
     sf::Vector2f acceleration;
     bool isGrounded = false;
     bool receivesGravity = true;
 
-    // Get bounds as SFML FloatRect
+    // Collision tracking
+    bool collidedWithProjectile = false;
+    bool collidedWithMovingPlatform = false;
+    sf::Vector2f platformVelocity;
+
     sf::FloatRect getBounds() const {
         return sf::FloatRect(position, size);
     }
 
-    sf::RectangleShape getDebugShape() const {
-        sf::RectangleShape shape(size);
-        shape.setPosition(position);
-        shape.setFillColor(sf::Color(255, 0, 0, 150)); // Semi-transparent red
-        shape.setOutlineThickness(1.f);
-        shape.setOutlineColor(sf::Color::Red);
-        return shape;
-    }
-
     void update(float deltaTime, const sf::Vector2f& gravity) {
-        if (receivesGravity) acceleration += gravity;
+        if (receivesGravity) {
+            acceleration += gravity;
+        }
+
         velocity += acceleration * deltaTime;
         position += velocity * deltaTime;
-        acceleration = { 0, 0 };
+        acceleration = { 0, 0 }; // Reset acceleration
+    }
+
+    // Debug visualization
+    sf::RectangleShape getDebugShape() const {
+        sf::RectangleShape debugShape(size);
+        debugShape.setPosition(position);
+        debugShape.setFillColor(sf::Color(255, 0, 0, 120)); // Semi-transparent red
+
+        // Color-code collision types
+        if (collidedWithProjectile) {
+            debugShape.setOutlineColor(sf::Color::Magenta);
+        }
+        else if (collidedWithMovingPlatform) {
+            debugShape.setOutlineColor(sf::Color::Cyan);
+        }
+        else {
+            debugShape.setOutlineColor(sf::Color::White);
+        }
+
+        debugShape.setOutlineThickness(1.5f);
+        return debugShape;
     }
 };
 
 namespace Physics {
-    // Collision check (unchanged)
     bool AABB(const sf::FloatRect& a, const sf::FloatRect& b);
+    void resolveCollision(
+        PhysicsComponent& dynamic,
+        const sf::FloatRect& staticObj,
+        const sf::Vector2f& platformVelocity = sf::Vector2f(0, 0)
+    );
 
-    // SFML 3.0+ collision resolution   
-    void resolveCollision(PhysicsComponent& dynamic, const sf::FloatRect& staticObj);
-
-    //Debug the hitbox
+    // Optional: Global debug draw helper
     void drawDebug(sf::RenderTarget& target, const PhysicsComponent& phys);
 }
