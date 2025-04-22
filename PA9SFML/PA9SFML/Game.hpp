@@ -4,6 +4,7 @@
 #include "Header.hpp"
 #include "Player.hpp"
 #include "Platform.hpp"
+#include "MovePlatform.hpp"
 
 class Game {
 public:
@@ -20,6 +21,7 @@ private:
 	void updatePlayer();
 	void renderPlayer();
 	void renderPlatforms();
+	void updatePlatformMoving(Time dt);
 
 	void update(Time dt);
 	void render();
@@ -28,6 +30,7 @@ private:
 	RenderWindow window;
 	Player player;
 	std::vector<Platform> platforms;
+	std::vector<PlatformMoving> movePlatform;
 
 };
 

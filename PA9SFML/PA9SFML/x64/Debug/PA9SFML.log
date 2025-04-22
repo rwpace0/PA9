@@ -1,20 +1,14 @@
 ﻿  Game.cpp
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(23,23): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(23,23): warning C4244:         with
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(23,23): warning C4244:         [
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(23,23): warning C4244:             T=unsigned int
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(23,23): warning C4244:         ]
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(24,24): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(24,24): warning C4244:         with
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(24,24): warning C4244:         [
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(24,24): warning C4244:             T=unsigned int
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(24,24): warning C4244:         ]
-  main.cpp
-  physics.cpp
-  Platform.cpp
-  Player.cpp
-  Generating Code...
-C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Platform.cpp(18,1): warning C4172: returning address of local variable or temporary 
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(17,23): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(17,23): warning C4244:         with
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(17,23): warning C4244:         [
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(17,23): warning C4244:             T=unsigned int
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(17,23): warning C4244:         ]
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(18,24): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(18,24): warning C4244:         with
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(18,24): warning C4244:         [
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(18,24): warning C4244:             T=unsigned int
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(18,24): warning C4244:         ]
 sfml-graphics-s-d.lib(StencilMode.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(StencilMode.obj)' or at ''; linking object as if no debug info
 sfml-graphics-s-d.lib(VertexArray.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(VertexArray.obj)' or at ''; linking object as if no debug info
 sfml-graphics-s-d.lib(Shape.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Shape.obj)' or at ''; linking object as if no debug info

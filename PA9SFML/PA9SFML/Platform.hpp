@@ -5,11 +5,12 @@
 class Platform {
 public:
     Platform(const sf::Vector2f& position, const sf::Vector2f& size);
+    virtual ~Platform() = default;
 
     const sf::FloatRect& getBounds() const;
-    void draw(sf::RenderTarget& target);
+    virtual void draw(sf::RenderTarget& target);
 
-private:
+protected:
     sf::RectangleShape shape;
     PhysicsComponent physics; // For collision (no gravity/movement)
 };
