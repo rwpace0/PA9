@@ -19,7 +19,12 @@ Game::Game() {
         sf::Vector2f(100, 750),  // Position (x, y)
         sf::Vector2f(200, 50)  // Size (width, height)
     );
+
+
+
+   enemies.push_back(Enemy());
 }
+
 
 Game::~Game() {
 	// function to clean up everything
@@ -49,6 +54,7 @@ void Game::renderPlayer()
     player.draw(window);
 }
 
+
 void Game::update(Time dt) {
     while (const optional event = window.pollEvent()) {
         if (event->is<Event::Closed>()) {
@@ -64,6 +70,34 @@ void Game::update(Time dt) {
             Physics::resolveCollision(player.physics, platform.getBounds());
         }
     }
+
+
+    //enemy spawning
+    timeSinceLastSpawn += dt.asSeconds();
+    
+    if (timeSinceLastSpawn >= spawnRateSec)
+    {
+        Enemy enemy;
+
+        int screenHeight = window.getSize().y;
+        int minY = screenHeight - 400;
+        int maxY = screenHeight - 200;
+
+        float y = static_cast<float>(minY + rand() % (maxY - minY));
+
+        enemy.setPosition(-enemy.getSize().x, y);
+        enemies.push_back(enemy);
+
+
+        timeSinceLastSpawn = 0.f;
+    }
+
+    //update enemies
+    for (auto& enemy : enemies)
+    {
+        enemy.update(dt);
+    }
+
 }
 
 
@@ -77,6 +111,12 @@ void Game::render() {
 
     // Draw the player
     renderPlayer();
+
+    //Render Enemy
+    for (auto& enemy : enemies)
+    {
+        enemy.draw(window);
+    }
 
     window.display();
 }
