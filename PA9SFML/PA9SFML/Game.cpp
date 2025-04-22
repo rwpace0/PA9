@@ -7,11 +7,91 @@ Game::Game() {
     window.setFramerateLimit(frameLimit);
 
     // Create a floor at the bottom of the screen
+    //platforms.emplace_back(
+    //    sf::Vector2f(0, 850),  // Position (x, y)
+    //    sf::Vector2f(800, 50)  // Size (width, height)
+    //);
+    //platforms.emplace_back(
+    //    sf::Vector2f(700, 750),  // Position (x, y)
+    //    sf::Vector2f(400, 50)  // Size (width, height)
+    //);
+    //platforms.emplace_back(
+    //    sf::Vector2f(100, 750),  // Position (x, y)
+    //    sf::Vector2f(200, 50)  // Size (width, height)
+    //);
+
+    float screenwidth = window.getSize().x;
+    float screenHeight = window.getSize().y;
+
+
+    float platformWidth = 150.f;
+    float platformheight = 30.f;
+
+    float bottom = screenHeight - 100.f;
+    float middle = screenHeight * 0.6f;
+    float top = screenHeight * 0.3f;
+
+
+    float spacing = screenwidth / 3.f;
+    /*bottom 2 platforms*/
     platforms.emplace_back(
-        sf::Vector2f(0, 850),  // Position (x, y)
-        sf::Vector2f(800, 50)  // Size (width, height)
+        Vector2f(spacing-platformWidth/2,bottom),
+        Vector2f(platformWidth,platformheight)
+
     );
+    platforms.emplace_back(
+        Vector2f(spacing * 2 - platformWidth / 2, bottom),
+        Vector2f(platformWidth, platformheight)
+        
+    
+    );
+
+    /*middle three platforms*/
+
+    spacing = screenwidth / 4.f;
+    platforms.emplace_back(
+        Vector2f(spacing - platformWidth / 2, middle),
+        Vector2f(platformWidth, platformheight)
+    
+    );
+
+    platforms.emplace_back(
+        Vector2f(spacing * 2 - platformWidth / 2, middle),
+        Vector2f(platformWidth, platformheight)
+
+    );
+
+    platforms.emplace_back(
+        Vector2f(spacing * 3 - platformWidth / 2, middle),
+        Vector2f(platformWidth, platformheight)
+
+    );
+
+    spacing = screenwidth / 3.f;
+
+    platforms.emplace_back(
+        Vector2f(spacing - platformWidth / 2, middle),
+        Vector2f(platformWidth, platformheight)
+
+    );
+
+    platforms.emplace_back(
+        Vector2f(spacing * 2 - platformWidth / 2, middle),
+        Vector2f(platformWidth, platformheight)
+
+    );
+
+
+
+
+
 }
+
+
+void Game::renderPlatforms()
+{
+}
+
 
 Game::~Game() {
 	// function to clean up everything
@@ -40,6 +120,8 @@ void Game::renderPlayer()
 {
     player.draw(window);
 }
+
+
 
 void Game::update(Time dt) {
     while (const optional event = window.pollEvent()) {

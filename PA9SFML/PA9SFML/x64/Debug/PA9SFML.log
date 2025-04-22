@@ -1,11 +1,20 @@
 ﻿  Game.cpp
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(23,23): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(23,23): warning C4244:         with
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(23,23): warning C4244:         [
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(23,23): warning C4244:             T=unsigned int
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(23,23): warning C4244:         ]
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(24,24): warning C4244: 'initializing': conversion from 'T' to 'float', possible loss of data
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(24,24): warning C4244:         with
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(24,24): warning C4244:         [
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(24,24): warning C4244:             T=unsigned int
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Game.cpp(24,24): warning C4244:         ]
   main.cpp
   physics.cpp
   Platform.cpp
   Player.cpp
   Generating Code...
-C:\Users\Reidw\OneDrive\Desktop\PA9\PA9\PA9SFML\PA9SFML\Platform.cpp(18,1): warning C4172: returning address of local variable or temporary 
-  LINK : C:\Users\Reidw\OneDrive\Desktop\PA9\PA9\PA9SFML\x64\Debug\PA9SFML.exe not found or not built by the last incremental link; performing full link
+C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\PA9SFML\Platform.cpp(18,1): warning C4172: returning address of local variable or temporary 
 sfml-graphics-s-d.lib(StencilMode.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(StencilMode.obj)' or at ''; linking object as if no debug info
 sfml-graphics-s-d.lib(VertexArray.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(VertexArray.obj)' or at ''; linking object as if no debug info
 sfml-graphics-s-d.lib(Shape.obj) : warning LNK4099: PDB '' was not found with 'sfml-graphics-s-d.lib(Shape.obj)' or at ''; linking object as if no debug info
@@ -52,4 +61,4 @@ sfml-system-s-d.lib(Err.obj) : warning LNK4099: PDB '' was not found with 'sfml-
 sfml-system-s-d.lib(Utils.obj) : warning LNK4099: PDB '' was not found with 'sfml-system-s-d.lib(Utils.obj)' or at ''; linking object as if no debug info
 sfml-system-s-d.lib(Sleep.obj) : warning LNK4099: PDB '' was not found with 'sfml-system-s-d.lib(Sleep.obj)' or at ''; linking object as if no debug info
 sfml-system-s-d.lib(SleepImpl.obj) : warning LNK4099: PDB '' was not found with 'sfml-system-s-d.lib(SleepImpl.obj)' or at ''; linking object as if no debug info
-  PA9SFML.vcxproj -> C:\Users\Reidw\OneDrive\Desktop\PA9\PA9\PA9SFML\x64\Debug\PA9SFML.exe
+  PA9SFML.vcxproj -> C:\Users\Daniel Ramirez\Documents\cpts122\PA9\PA9SFML\x64\Debug\PA9SFML.exe

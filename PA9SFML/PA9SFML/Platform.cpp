@@ -19,6 +19,6 @@ const sf::FloatRect& Platform::getBounds() const {
 }
 
 void Platform::draw(sf::RenderTarget& target) {
-    shape.setPosition(physics.position); // Sync shape with physics
-    target.draw(shape);
+    target.draw(shape); // Draw visual platform
+    Physics::drawDebug(target, physics); // Draw hitbox (red)
 }
