@@ -1,5 +1,7 @@
 *.ipch
 /PA9SFML/.vs
-/PA9SFML/.vs
-/PA9SFML/.vs
 *.db
+.vs/
+*.wsuo
+*.json
+/PA9SFML/x64
