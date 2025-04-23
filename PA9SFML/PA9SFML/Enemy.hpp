@@ -20,6 +20,7 @@ public:
     void setPosition(float x, float y);
 
     sf::Vector2f getSize() const;
+    sf::FloatRect getBounds() const;
 
 
 private:

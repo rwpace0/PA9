@@ -41,6 +41,10 @@ sf::Vector2f Enemy::getSize() const
 	return shape.getSize();
 }
 
+sf::FloatRect Enemy::getBounds() const {
+	return sf::FloatRect(shape.getPosition(), shape.getSize());
+}
+
 void Enemy::setPosition(float x, float y)
 {
 	shape.setPosition(sf::Vector2f(x, y));

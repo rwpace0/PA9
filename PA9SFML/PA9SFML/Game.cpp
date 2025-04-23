@@ -194,52 +194,67 @@ void Game::update(Time dt) {
 
     updatePlatformMoving(dt);
 
-    // Handle collisions between the player and platforms
+    // Handle collisions between the player and static platforms
     for (auto& platform : platforms) {
         if (Physics::AABB(player.physics.getBounds(), platform.getBounds())) {
-            Physics::resolveCollision(player.physics, platform.getBounds());
+            Physics::resolveCollision(player.physics, platform.getBounds(), sf::Vector2f(0.f, 0.f));
+        }
+    }
+
+    // Handle collisions between the player and moving platforms
+    for (auto& platform : movePlatform) {
+        if (Physics::AABB(player.physics.getBounds(), platform.getBounds())) {
+            Physics::resolveCollision(player.physics, platform.getBounds(), platform.getVelocity());
+        }
+    }
+
+    // Handle collisions between the player and enemies
+    for (auto& enemy : enemies) {
+        if (Physics::AABB(player.physics.getBounds(), enemy.getBounds())) {
+            player.reduceHealth(20); // Reduce health by 20
         }
     }
 
     updateTime();
 
 
-
-
-    //enemy spawning
+    // Enemy spawning logic
     timeSinceLastSpawn += dt.asSeconds();
-    
-    if (timeSinceLastSpawn >= spawnRateSec)
-    {
-        Enemy enemy;
+    if (timeSinceLastSpawn >= spawnRate) {
+        std::random_device rand; // Seed
+        std::mt19937 gen(rand()); // Random number generator
+        std::uniform_real_distribution<float> distance(0.f, static_cast<float>(window.getSize().y - 50.f)); // Adjust height range
 
-        int screenHeight = window.getSize().y;
-        int minY = screenHeight - 400;
-        int maxY = screenHeight - 200;
+        for (int i = 0; i < enemiesPerSpawn; ++i) {
+            Enemy enemy;
 
-        float y = static_cast<float>(minY + rand() % (maxY - minY));
+            float y = distance(gen); // Generate a random y position
+            enemy.setPosition(-enemy.getSize().x, y); // Spawn off-screen to the left
+            enemies.push_back(enemy);
+        }
 
-        enemy.setPosition(-enemy.getSize().x, y);
-        enemies.push_back(enemy);
-
-
-        timeSinceLastSpawn = 0.f;
+        timeSinceLastSpawn = 0.0f; // Reset the spawn timer
     }
 
-    //update enemies
-    for (auto& enemy : enemies)
-    {
-        enemy.update(dt);
-    }
 
-    for (auto& platform : movePlatform) {
-        if (Physics::AABB(player.physics.getBounds(), platform.getBounds())) {
-            Physics::resolveCollision(player.physics, platform.getBounds());
+
+    // Update enemies and remove those that move off-screen
+    for (auto it = enemies.begin(); it != enemies.end(); ) {
+        it->update(dt);
+
+        // Check if the enemy is off-screen
+        if (it->getBounds().position.x > window.getSize().x) {
+            it = enemies.erase(it); // Remove the enemy and update the iterator
+        }
+        else {
+            ++it; // Move to the next enemy
         }
     }
 
 
 }
+
+
 
 
 void Game::render() {
