@@ -6,7 +6,12 @@ Game::Game() {
     window.create(desktopMode, "Game Name", Style::None);
     window.setFramerateLimit(frameLimit);
 
+
     renderPlatforms();
+
+
+    // Create a floor at the bottom of the screen
+   
 
 }
 
