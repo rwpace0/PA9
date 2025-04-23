@@ -19,6 +19,8 @@ public:
 
 	//for now running the window
 	void run();
+	void setSpawnRate(float rate) { spawnRate = rate; }
+	void setEnemiesPerSpawn(int count) { enemiesPerSpawn = count; }
 
 private:
 	
@@ -54,9 +56,10 @@ private:
 
 
 	//ENEMY Spawning Variables
-	float spawnRateSec = 10.f;
-	float timeSinceLastSpawn = 0.f;
-	sf::Time enemySpawnInterval = sf::seconds(spawnRateSec);
+	float spawnRate = 2.0f; // Default spawn rate in seconds
+	float timeSinceLastSpawn = 0.0f; // Tracks time since the last enemy spawn
+	sf::Time enemySpawnInterval = sf::seconds(spawnRate);
+	int enemiesPerSpawn = 2;
 
 
 	std::vector<PlatformMoving> movePlatform;
