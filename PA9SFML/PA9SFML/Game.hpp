@@ -28,6 +28,8 @@ private:
 	void renderPlatforms();
 	void updatePlatformMoving(Time dt);
 
+	
+
 	void update(Time dt);
 	void render();
 
@@ -35,6 +37,18 @@ private:
 	RenderWindow window;
 	Player player;
 	std::vector<Platform> platforms;
+	
+	//time
+	Clock gameClock;
+	Clock deltaClock;
+	
+	//text
+	Font font;
+	Text *timeText = nullptr;
+
+	//time
+	void initTime();
+	void updateTime();
 
 	std::vector<Enemy> enemies;
 

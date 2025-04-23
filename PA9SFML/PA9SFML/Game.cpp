@@ -2,6 +2,7 @@
 #include "Game.hpp"
 
 Game::Game() {
+
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     window.create(desktopMode, "Game Name", Style::None);
     window.setFramerateLimit(frameLimit);
@@ -88,6 +89,9 @@ void Game::renderPlatforms()
 
     );
 
+    initTime();
+
+
 
 
    enemies.push_back(Enemy());
@@ -105,6 +109,7 @@ void Game::updatePlatformMoving(Time dt)
         platform.update(dt.asSeconds());
     }
 
+
 }
 
 
@@ -112,17 +117,20 @@ void Game::updatePlatformMoving(Time dt)
 
 
 Game::~Game() {
-	// function to clean up everything
+
+    delete timeText;
+	
 }
 
 
 void Game::run()
 {
-    Clock clock;
+    deltaClock.restart();
+    gameClock.restart();
 
     while (window.isOpen())
     {
-        Time dt = clock.restart();
+        Time dt = deltaClock.restart();
 
         update(dt);
         render();
@@ -139,6 +147,40 @@ void Game::renderPlayer()
     player.draw(window);
 }
 
+
+void Game::initTime()
+{
+    if (!font.openFromFile("Fonts/pixelfont.otf")) {
+        throw std::runtime_error("Failed to Pixel Font");
+    }
+    
+    timeText = new Text(font,"Time", 100);
+    timeText->setFillColor(Color::White);
+    
+    updateTime();
+}
+
+void Game::updateTime()
+{
+    float seconds = gameClock.getElapsedTime().asSeconds();
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(2) << seconds; // display it to the screen as a string
+    timeText->setString(ss.str());
+
+    // CENTER TEXT
+    FloatRect bounds = timeText->getLocalBounds();
+    Vector2f newOrigin{
+        (bounds.position.x + bounds.size.x) * 0.5f, bounds.position.y
+    };
+    timeText->setOrigin(newOrigin);
+
+
+    sf::Vector2f pos{
+        static_cast<float>(window.getSize().x) * 0.5f,
+        10.f
+    };
+    timeText->setPosition(pos);
+}
 
 
 void Game::update(Time dt) {
@@ -158,6 +200,9 @@ void Game::update(Time dt) {
             Physics::resolveCollision(player.physics, platform.getBounds());
         }
     }
+
+    updateTime();
+
 
 
 
@@ -193,6 +238,7 @@ void Game::update(Time dt) {
         }
     }
 
+
 }
 
 
@@ -210,11 +256,15 @@ void Game::render() {
     // Draw the player
     renderPlayer();
 
+
+    window.draw(*timeText);
+
     //Render Enemy
     for (auto& enemy : enemies)
     {
         enemy.draw(window);
     }
+
 
     window.display();
 }
