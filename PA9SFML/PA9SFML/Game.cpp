@@ -7,7 +7,7 @@ Game::Game() {
     window.create(desktopMode, "Game Name", Style::None);
     window.setFramerateLimit(frameLimit);
 
-
+    initTime();
     renderPlatforms();
 
 
@@ -89,7 +89,7 @@ void Game::renderPlatforms()
 
     );
 
-    initTime();
+    
 
 
 
@@ -101,7 +101,7 @@ void Game::renderPlatforms()
   
 
 
-}
+
 
 void Game::updatePlatformMoving(Time dt)
 {
