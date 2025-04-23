@@ -3,8 +3,7 @@
 
 struct PhysicsComponent {
 
-    sf::Vector2f position;
-    sf::Vector2f size;
+  
     sf::Vector2f position;  // Top-left corner
     sf::Vector2f size;      // Width/height
     sf::Vector2f velocity;
