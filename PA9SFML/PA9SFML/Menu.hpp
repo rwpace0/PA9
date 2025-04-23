@@ -51,7 +51,7 @@ public:
     Menu(sf::RenderWindow& window);
     ~Menu();
 
-    void handleInput();
+    void handleInput(float dt);
     void update(float dt);
     void draw();
 
@@ -64,6 +64,8 @@ private:
     std::vector<MenuItem> menuItems;
     int selectedItemIndex = 0;
     bool itemSelected = false;
+    float lastInputTime = 0.0f;
+    const float inputCooldown = 0.2f;
 
     sf::Font font;
     sf::Text* titleText;

@@ -107,52 +107,53 @@ Game::~Game() {
 	
 }
 
-void Game::run()
-{
+void Game::run() {
     deltaClock.restart();
     gameClock.restart();
 
-    while (window.isOpen())
-    {
-        Time dt = deltaClock.restart();
-        
-        processEvents();
+    while (window.isOpen()) {
+        Time dt = deltaClock.restart(); // Calculate dt once per frame
 
+        processEvents(dt); // Pass dt to processEvents
         switch (currentState) {
-            case GameState::MENU:
-                handleMenuState(dt);
-                break;
-            case GameState::PLAYING:
-                handlePlayingState(dt);
-                break;
-            case GameState::PAUSED:
-                handlePausedState(dt);
-                break;
-            case GameState::GAME_OVER:
-            // Collide player state
+        case GameState::MENU:
+            handleMenuState(dt);
+            break;
+        case GameState::PLAYING:
+            handlePlayingState(dt);
+            break;
+        case GameState::PAUSED:
+            handlePausedState(dt);
+            break;
+        case GameState::GAME_OVER:
+            // Handle game over state
             break;
         }
     }
 }
 
-void Game::processEvents() {
-    
-     
+
+void Game::processEvents(Time dt) {
+    lastInputTime += dt.asSeconds(); // Update the cooldown timer
+
     if (currentState == GameState::MENU && menu) {
-            menu->handleInput();
+        menu->handleInput(dt.asSeconds());
     }
-        
-    //pause
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape)) {
+
+    // Handle pause/unpause with cooldown
+    if (lastInputTime >= inputCooldown && sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape)) {
         if (currentState == GameState::PLAYING) {
             currentState = GameState::PAUSED;
+            isPaused = false; // Reset the flag when entering the pause state
         }
         else if (currentState == GameState::PAUSED) {
             currentState = GameState::PLAYING;
         }
+        lastInputTime = 0.0f; // Reset the cooldown timer
     }
-
 }
+
+
 
 void Game::handleMenuState(sf::Time dt) {
     window.clear(sf::Color(30, 30, 30)); // Dark background for menu
@@ -192,36 +193,43 @@ void Game::handlePlayingState(sf::Time dt) {
 }
 
 void Game::handlePausedState(sf::Time dt) {
-    // draw the game first (but don't update it)
-    render();
+    if (!isPaused) {
+        // Draw the game first (but don't update it)
+        render();
 
-    //draw pause overlay
-    sf::RectangleShape overlay;
-    overlay.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
-    overlay.setFillColor(sf::Color(0, 0, 0, 128)); // Semi-transparent black
-    window.draw(overlay);
+        // Draw pause overlay
+        sf::RectangleShape overlay;
+        overlay.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
+        overlay.setFillColor(sf::Color(0, 0, 0, 128)); // Semi-transparent black
+        window.draw(overlay);
 
-    // draw pause text
-    sf::Text pauseText(font, "PAUSED", 100);
-    pauseText.setFillColor(sf::Color::White);
+        // Draw pause text
+        sf::Text pauseText(font, "PAUSED", 100);
+        pauseText.setFillColor(sf::Color::White);
 
-    // CENTER
-    sf::FloatRect bounds = pauseText.getLocalBounds();
-    sf::Vector2f newOrigin{
-        (bounds.position.x + bounds.size.x) * 0.5f,
-        (bounds.position.y + bounds.size.y) * 0.5f
-    };
-    pauseText.setOrigin(newOrigin);
+        // CENTER
+        sf::FloatRect bounds = pauseText.getLocalBounds();
+        sf::Vector2f newOrigin{
+            (bounds.position.x + bounds.size.x) * 0.5f,
+            (bounds.position.y + bounds.size.y) * 0.5f
+        };
+        pauseText.setOrigin(newOrigin);
 
-    sf::Vector2f pos{
-        static_cast<float>(window.getSize().x) * 0.5f,
-        static_cast<float>(window.getSize().y) * 0.5f
-    };
-    pauseText.setPosition(pos);
+        sf::Vector2f pos{
+            static_cast<float>(window.getSize().x) * 0.5f,
+            static_cast<float>(window.getSize().y) * 0.5f
+        };
+        pauseText.setPosition(pos);
 
-    window.draw(pauseText);
-    window.display();
+        window.draw(pauseText);
+        window.display();
+
+        isPaused = true; // Mark the pause menu as rendered
+    }
 }
+
+
+
 
 void Game::updatePlayer()
 {
