@@ -38,8 +38,11 @@ public:
 private:
 	GameState currentState = GameState::MENU;
 	Menu* menu = nullptr;
+	float lastInputTime = 0.0f;
+	const float inputCooldown = 0.2f;
+	bool isPaused = false;
 
-	void processEvents();
+	void processEvents(sf::Time dt);
 	void handleMenuState(sf::Time dt);
 	void handlePlayingState(sf::Time dt);
 	void handlePausedState(sf::Time dt);

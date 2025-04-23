@@ -38,28 +38,32 @@ Menu::~Menu() {
     delete titleText;
 }
 
-void Menu::handleInput() {
-    
-    
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up)) {
+void Menu::handleInput(float dt) {
+    lastInputTime += dt;
+
+    if (lastInputTime >= inputCooldown) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up)) {
             menuItems[selectedItemIndex].setSelected(false);
             selectedItemIndex = (selectedItemIndex - 1 + static_cast<int>(menuItems.size())) % static_cast<int>(menuItems.size());
             menuItems[selectedItemIndex].setSelected(true);
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down)) {
+            lastInputTime = 0.0f;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down)) {
             menuItems[selectedItemIndex].setSelected(false);
             selectedItemIndex = (selectedItemIndex + 1) % static_cast<int>(menuItems.size());
             menuItems[selectedItemIndex].setSelected(true);
-    }
-
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Enter)) {
+            lastInputTime = 0.0f;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Enter)) {
             itemSelected = true;
+            lastInputTime = 0.0f;
+        }
     }
-    
 }
 
+
 void Menu::update(float dt) {
-    // probably dont need
+    handleInput(dt);
 }
 
 void Menu::draw() {
