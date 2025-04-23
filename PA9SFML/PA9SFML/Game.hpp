@@ -4,8 +4,12 @@
 #include "Header.hpp"
 #include "Player.hpp"
 #include "Platform.hpp"
+
 #include "Enemy.hpp"
 #include <random>
+
+#include "MovePlatform.hpp"
+
 
 class Game {
 public:
@@ -22,6 +26,7 @@ private:
 	void updatePlayer();
 	void renderPlayer();
 	void renderPlatforms();
+	void updatePlatformMoving(Time dt);
 
 	void update(Time dt);
 	void render();
@@ -30,6 +35,7 @@ private:
 	RenderWindow window;
 	Player player;
 	std::vector<Platform> platforms;
+
 	std::vector<Enemy> enemies;
 
 
@@ -37,6 +43,9 @@ private:
 	float spawnRateSec = 10.f;
 	float timeSinceLastSpawn = 0.f;
 	sf::Time enemySpawnInterval = sf::seconds(spawnRateSec);
+
+
+	std::vector<PlatformMoving> movePlatform;
 
 
 };

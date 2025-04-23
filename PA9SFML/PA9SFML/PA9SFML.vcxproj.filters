@@ -31,6 +31,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="MovePlatform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,6 +55,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.hpp">
+    <ClInclude Include="MovePlatform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

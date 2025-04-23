@@ -138,6 +138,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MovePlatform.cpp" />
     <ClCompile Include="physics.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Header.hpp" />
+    <ClInclude Include="MovePlatform.hpp" />
     <ClInclude Include="physics.hpp" />
     <ClInclude Include="Platform.hpp" />
     <ClInclude Include="Player.hpp" />
