@@ -8,6 +8,9 @@
 *.ipch
 ipch/
 #
+x64
+Debug
+Release
 
 # User-specific files
 *.rsuser
