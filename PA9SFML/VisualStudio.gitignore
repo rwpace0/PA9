@@ -8,10 +8,11 @@
 *.ipch
 ipch/
 #
+PA9SFML/x64
 /PA9SFML/x64
 /PA9SFML/x64/Debug
 PA9SFML/x64
-PA9SFML/x64/
+PA9SFML/x64/Debug
 
 # User-specific files
 *.rsuser
