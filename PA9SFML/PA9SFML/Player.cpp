@@ -41,8 +41,31 @@ void Player::draw(sf::RenderTarget& target) const {
     Physics::drawDebug(target, physics); // Draw hitbox (red)
 }
 
+void Player::reduceHealth(int amount) {
+    // Check if the player can take damage
+    if (!canTakeDamage()) return;
+
+    health -= amount;
+    std::cout << "Player health: " << health << std::endl;
+
+    // Update the last hit time
+    lastHitTime = 0.f;
+
+    if (health <= 0) {
+        std::cout << "Game Over!" << std::endl;
+        exit(0); // Exit the game for now
+    }
+}
+
+bool Player::canTakeDamage() const {
+    return lastHitTime >= hitCooldown;
+}
+
 void Player::update(sf::Time dt) {
     const float seconds = dt.asSeconds();
+
+    // Update the last hit time
+    lastHitTime += seconds;
 
     // Jump: W/Space/Up (any of these keys)
     if (physics.isGrounded &&
@@ -84,7 +107,6 @@ void Player::update(sf::Time dt) {
         physics.position.y + physics.size.y / 2.f
     ));
 }
-
 
 
 

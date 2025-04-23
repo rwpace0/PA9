@@ -208,17 +208,19 @@ void Game::update(Time dt) {
         }
     }
 
+    // Handle collisions between the player and enemies
+    for (auto& enemy : enemies) {
+        if (Physics::AABB(player.physics.getBounds(), enemy.getBounds())) {
+            player.reduceHealth(20); // Reduce health by 20
+        }
+    }
+
 
     updateTime();
 
-
-
-
-    //enemy spawning
+    // Enemy spawning logic
     timeSinceLastSpawn += dt.asSeconds();
-    
-    if (timeSinceLastSpawn >= spawnRateSec)
-    {
+    if (timeSinceLastSpawn >= spawnRateSec) {
         Enemy enemy;
 
         int screenHeight = window.getSize().y;
@@ -230,24 +232,15 @@ void Game::update(Time dt) {
         enemy.setPosition(-enemy.getSize().x, y);
         enemies.push_back(enemy);
 
-
         timeSinceLastSpawn = 0.f;
     }
 
-    //update enemies
-    for (auto& enemy : enemies)
-    {
+    // Update enemies
+    for (auto& enemy : enemies) {
         enemy.update(dt);
     }
-
-    for (auto& platform : movePlatform) {
-        if (Physics::AABB(player.physics.getBounds(), platform.getBounds())) {
-            Physics::resolveCollision(player.physics, platform.getBounds());
-        }
-    }
-
-
 }
+
 
 
 void Game::render() {

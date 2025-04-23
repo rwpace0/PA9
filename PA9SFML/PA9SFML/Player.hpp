@@ -10,6 +10,13 @@ public:
     void draw(sf::RenderTarget& target) const override;
     void jump(float force);
 
+    // Health-related methods
+    void reduceHealth(int amount);
+    int getHealth() const { return health; }
+
+    // Cooldown-related methods
+    bool canTakeDamage() const;
+
     PhysicsComponent physics;
 
 private:
@@ -21,4 +28,8 @@ private:
     std::optional<sf::Sprite> sprite;
     sf::Vector2f startPos;
     const float JUMP_FORCE = -600.f;
+
+    int health = 100; // Player starts with 100 health
+    float lastHitTime = 0.f; // Time since the last hit
+    const float hitCooldown = 1.f; // Cooldown duration in seconds
 };
