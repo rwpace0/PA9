@@ -9,6 +9,7 @@ Menu::Menu(RenderWindow& window) : window(window) {
     titleText->setFillColor(sf::Color::White);
 
     // CENTER
+    sf::FloatRect bounds = titleText->getLocalBounds();
     sf::Vector2f newOrigin{
         (bounds.position.x + bounds.size.x) * 0.5f,
         bounds.position.y
