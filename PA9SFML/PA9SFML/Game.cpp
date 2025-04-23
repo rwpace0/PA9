@@ -88,6 +88,12 @@ void Game::renderPlatforms()
 
     );
 
+
+
+   enemies.push_back(Enemy());
+}
+
+
   
 
 
@@ -100,6 +106,7 @@ void Game::updatePlatformMoving(Time dt)
     }
 
 }
+
 
 
 
@@ -152,11 +159,40 @@ void Game::update(Time dt) {
         }
     }
 
+
+
+    //enemy spawning
+    timeSinceLastSpawn += dt.asSeconds();
+    
+    if (timeSinceLastSpawn >= spawnRateSec)
+    {
+        Enemy enemy;
+
+        int screenHeight = window.getSize().y;
+        int minY = screenHeight - 400;
+        int maxY = screenHeight - 200;
+
+        float y = static_cast<float>(minY + rand() % (maxY - minY));
+
+        enemy.setPosition(-enemy.getSize().x, y);
+        enemies.push_back(enemy);
+
+
+        timeSinceLastSpawn = 0.f;
+    }
+
+    //update enemies
+    for (auto& enemy : enemies)
+    {
+        enemy.update(dt);
+    }
+
     for (auto& platform : movePlatform) {
         if (Physics::AABB(player.physics.getBounds(), platform.getBounds())) {
             Physics::resolveCollision(player.physics, platform.getBounds());
         }
     }
+
 }
 
 
@@ -173,6 +209,12 @@ void Game::render() {
     }
     // Draw the player
     renderPlayer();
+
+    //Render Enemy
+    for (auto& enemy : enemies)
+    {
+        enemy.draw(window);
+    }
 
     window.display();
 }
