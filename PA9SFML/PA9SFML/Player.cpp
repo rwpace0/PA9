@@ -33,6 +33,7 @@ void Player::initTexture() {
 void Player::initStartPos() {
     sprite->setPosition(startPos);
     physics.position = startPos;
+    physics.isPlayer = true;
 }
 
 void Player::draw(sf::RenderTarget& target) const {
@@ -43,35 +44,49 @@ void Player::draw(sf::RenderTarget& target) const {
 void Player::update(sf::Time dt) {
     const float seconds = dt.asSeconds();
 
-    // Reset horizontal velocity
-    physics.velocity.x = 0.f;
+    // Jump: W/Space/Up (any of these keys)
+    if (physics.isGrounded &&
+        (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W) ||
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Space) ||
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up))) {
+        jump(JUMP_FORCE);
+    }
+
+    // Apply physics
+    const sf::Vector2f gravity = { 0.f, 980.f };
+    physics.update(seconds, gravity);
+
+    // Adjust position based on platform movement when standing still
+    if (physics.isGrounded && physics.collidedWithMovingPlatform &&
+        !(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A) ||
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left) ||
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D) ||
+            sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right))) {
+        // Move the player exactly with the platform
+        physics.position.x += physics.platformVelocity.x * seconds;
+    }
 
     // Movement: A/Left or D/Right
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A) ||
         sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left)) {
         physics.velocity.x = -350.f;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D) ||
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D) ||
         sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right)) {
         physics.velocity.x = 350.f;
     }
-
-    // Jump: W/Space/Up (any of these keys)
-    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W) ||
-        (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Space)) ||
-        (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up)))) {
-        jump(JUMP_FORCE);
+    else {
+        physics.velocity.x = 0.f; // Reset velocity if no input
     }
 
-    // Apply physics
-    const sf::Vector2f gravity = { 0.f, 980.f }; // Stronger gravity for snappy jumps
-        physics.update(seconds, gravity);
-
-        sprite->setPosition(Vector2(
-            physics.position.x + physics.size.x / 2.f,  // X: hitbox center
-            physics.position.y + physics.size.y / 2.f   // Y: hitbox center
-        ));
+    sprite->setPosition(Vector2(
+        physics.position.x + physics.size.x / 2.f,
+        physics.position.y + physics.size.y / 2.f
+    ));
 }
+
+
+
 
 void Player::jump(float force) {
     if (physics.isGrounded) {
@@ -79,5 +94,3 @@ void Player::jump(float force) {
         physics.isGrounded = false;
     }
 }
-
-// ... (keep existing initSprite(), initTexture(), initStartPos(), draw())

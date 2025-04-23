@@ -10,6 +10,7 @@ struct PhysicsComponent {
     sf::Vector2f acceleration;
     bool isGrounded = false;
     bool receivesGravity = true;
+    bool isPlayer = false;
 
     // Collision tracking
     bool collidedWithProjectile = false;
@@ -21,6 +22,7 @@ struct PhysicsComponent {
     }
 
     void update(float deltaTime, const sf::Vector2f& gravity) {
+		isGrounded = false; // Reset grounded state
         if (receivesGravity) {
             acceleration += gravity;
         }

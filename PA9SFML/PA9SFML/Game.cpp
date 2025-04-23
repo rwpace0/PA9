@@ -194,12 +194,20 @@ void Game::update(Time dt) {
 
     updatePlatformMoving(dt);
 
-    // Handle collisions between the player and platforms
+    // Handle collisions between the player and static platforms
     for (auto& platform : platforms) {
         if (Physics::AABB(player.physics.getBounds(), platform.getBounds())) {
-            Physics::resolveCollision(player.physics, platform.getBounds());
+            Physics::resolveCollision(player.physics, platform.getBounds(), sf::Vector2f(0.f, 0.f));
         }
     }
+
+    // Handle collisions between the player and moving platforms
+    for (auto& platform : movePlatform) {
+        if (Physics::AABB(player.physics.getBounds(), platform.getBounds())) {
+            Physics::resolveCollision(player.physics, platform.getBounds(), platform.getVelocity());
+        }
+    }
+
 
     updateTime();
 

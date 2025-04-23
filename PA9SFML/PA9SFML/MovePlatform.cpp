@@ -7,28 +7,27 @@ PlatformMoving::PlatformMoving(const sf::Vector2f& position, const sf::Vector2f&
 }
 
 void PlatformMoving::update(float dt) {
+    float movement = speed * direction; // Remove dependency on dt
+    traveled += std::abs(movement) * dt; // Scale traveled distance by dt
 
-	float movement = speed * dt * direction;
+    if (traveled >= distance) {
+        direction *= -1;
+        traveled = 0.0f;
+    }
 
-	traveled += std::abs(movement);
+    sf::Vector2f newPosition = physics.position;
 
+    if (this->movement == Movement::horizontal) {
+        velocity = { movement, 0.f };
+        newPosition.x += movement * dt; // Scale position update by dt
+    }
+    else {
+        velocity = { 0.f, movement };
+        newPosition.y += movement * dt; // Scale position update by dt
+    }
 
-	if (traveled >= distance) {
-		direction *= -1;
-		traveled = 0.0f;
-	}
-	sf::Vector2f newPosition = physics.position;
-
-	if (this->movement == Movement::horizontal) {
-		newPosition.x += movement;
-	}
-	else {
-
-		newPosition.y += movement;
-	}
-
-	physics.position = newPosition;
-	shape.setPosition(newPosition);
-
-
+    physics.position = newPosition;
+    shape.setPosition(newPosition);
 }
+
+
