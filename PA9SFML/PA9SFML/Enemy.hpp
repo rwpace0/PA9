@@ -1,0 +1,34 @@
+#pragma once
+#ifndef ENEMY
+#define ENEMY
+
+#include "Entity.hpp"
+
+
+
+class Enemy : public Entity
+{
+public:
+
+    Enemy();
+
+    void update(sf::Time dt) override;
+    void draw(sf::RenderTarget& target) const override;
+
+    //setter
+    void setSpeed(float speed);
+    void setPosition(float x, float y);
+
+    sf::Vector2f getSize() const;
+
+
+private:
+    sf::Vector2f startPos;
+	sf::RectangleShape shape;
+	float moveSpeed;
+
+
+};
+
+
+#endif // !ENEMY

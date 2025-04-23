@@ -5,6 +5,12 @@
 #include "Player.hpp"
 #include "Platform.hpp"
 
+#include "Enemy.hpp"
+#include <random>
+
+#include "MovePlatform.hpp"
+
+
 class Game {
 public:
 	//constructor destructor
@@ -20,6 +26,9 @@ private:
 	void updatePlayer();
 	void renderPlayer();
 	void renderPlatforms();
+	void updatePlatformMoving(Time dt);
+
+	
 
 	void update(Time dt);
 	void render();
@@ -28,6 +37,30 @@ private:
 	RenderWindow window;
 	Player player;
 	std::vector<Platform> platforms;
+	
+	//time
+	Clock gameClock;
+	Clock deltaClock;
+	
+	//text
+	Font font;
+	Text *timeText = nullptr;
+
+	//time
+	void initTime();
+	void updateTime();
+
+	std::vector<Enemy> enemies;
+
+
+	//ENEMY Spawning Variables
+	float spawnRateSec = 10.f;
+	float timeSinceLastSpawn = 0.f;
+	sf::Time enemySpawnInterval = sf::seconds(spawnRateSec);
+
+
+	std::vector<PlatformMoving> movePlatform;
+
 
 };
 
