@@ -4,12 +4,18 @@
 #include "Header.hpp"
 #include "Player.hpp"
 #include "Platform.hpp"
-
+#include "Menu.hpp"
 #include "Enemy.hpp"
 #include <random>
 
 #include "MovePlatform.hpp"
 
+enum class GameState {
+	MENU,
+	PLAYING,
+	PAUSED,
+	GAME_OVER
+};
 
 class Game {
 public:
@@ -22,8 +28,23 @@ public:
 	void setSpawnRate(float rate) { spawnRate = rate; }
 	void setEnemiesPerSpawn(int count) { enemiesPerSpawn = count; }
 
+	enum class GameState {
+		MENU,
+		PLAYING,
+		PAUSED,
+		GAME_OVER,
+	};
+
 private:
-	
+	GameState currentState = GameState::MENU;
+	Menu* menu = nullptr;
+
+	void processEvents();
+	void handleMenuState(sf::Time dt);
+	void handlePlayingState(sf::Time dt);
+	void handlePausedState(sf::Time dt);
+
+
 	//functions
 	void updatePlayer();
 	void renderPlayer();

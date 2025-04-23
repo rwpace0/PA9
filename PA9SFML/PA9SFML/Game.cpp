@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.hpp"
 
+
 Game::Game() {
 
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
@@ -10,7 +11,7 @@ Game::Game() {
     initTime();
     renderPlatforms();
 
-
+    menu = new Menu(window);
     // Create a floor at the bottom of the screen
    
 
@@ -86,22 +87,10 @@ void Game::renderPlatforms()
         Vector2f(spacing * 2 - platformWidth / 2, r4),
         Vector2f(platformWidth, platformheight),
         Movement::horizontal,200.f,350.f
-
     );
-
-    
-
-
-
 
    enemies.push_back(Enemy());
 }
-
-
-  
-
-
-
 
 void Game::updatePlatformMoving(Time dt)
 {
@@ -112,16 +101,11 @@ void Game::updatePlatformMoving(Time dt)
 
 }
 
-
-
-
-
 Game::~Game() {
 
     delete timeText;
 	
 }
-
 
 void Game::run()
 {
@@ -131,10 +115,112 @@ void Game::run()
     while (window.isOpen())
     {
         Time dt = deltaClock.restart();
+        
+        processEvents();
 
-        update(dt);
-        render();
+        switch (currentState) {
+            case GameState::MENU:
+                handleMenuState(dt);
+                break;
+            case GameState::PLAYING:
+                handlePlayingState(dt);
+                break;
+            case GameState::PAUSED:
+                handlePausedState(dt);
+                break;
+            case GameState::GAME_OVER:
+            // Collide player state
+            break;
+        }
     }
+}
+
+void Game::processEvents() {
+    
+     
+    if (currentState == GameState::MENU && menu) {
+            menu->handleInput();
+    }
+        
+    //pause
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape)) {
+        if (currentState == GameState::PLAYING) {
+            currentState = GameState::PAUSED;
+        }
+        else if (currentState == GameState::PAUSED) {
+            currentState = GameState::PLAYING;
+        }
+    }
+
+}
+
+void Game::handleMenuState(sf::Time dt) {
+    window.clear(sf::Color(30, 30, 30)); // Dark background for menu
+
+    if (menu) {
+        menu->update(dt.asSeconds());
+        menu->draw();
+
+        // Check if a menu item was selected
+        if (menu->isItemSelected()) {
+            int selectedItem = menu->getSelectedItemIndex();
+            menu->resetItemSelected();
+
+            switch (selectedItem) {
+            case 0: //Play
+                currentState = GameState::PLAYING;
+                // reset game state if neccessary
+                gameClock.restart();
+                break;
+            case 1: //Options
+                //need option menu
+                break;
+            case 2: // Exit
+                window.close();
+                break;
+            }
+        }
+    }
+
+    window.display();
+}
+
+void Game::handlePlayingState(sf::Time dt) {
+    //update and render the game
+    update(dt);
+    render();
+}
+
+void Game::handlePausedState(sf::Time dt) {
+    // draw the game first (but don't update it)
+    render();
+
+    //draw pause overlay
+    sf::RectangleShape overlay;
+    overlay.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
+    overlay.setFillColor(sf::Color(0, 0, 0, 128)); // Semi-transparent black
+    window.draw(overlay);
+
+    // draw pause text
+    sf::Text pauseText(font, "PAUSED", 100);
+    pauseText.setFillColor(sf::Color::White);
+
+    // CENTER
+    sf::FloatRect bounds = pauseText.getLocalBounds();
+    sf::Vector2f newOrigin{
+        (bounds.position.x + bounds.size.x) * 0.5f,
+        (bounds.position.y + bounds.size.y) * 0.5f
+    };
+    pauseText.setOrigin(newOrigin);
+
+    sf::Vector2f pos{
+        static_cast<float>(window.getSize().x) * 0.5f,
+        static_cast<float>(window.getSize().y) * 0.5f
+    };
+    pauseText.setPosition(pos);
+
+    window.draw(pauseText);
+    window.display();
 }
 
 void Game::updatePlayer()
