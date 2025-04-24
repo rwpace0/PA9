@@ -398,9 +398,13 @@ void Game::update(Time dt) {
     }
 
     // Handle collisions between the player and enemies
-    for (auto& enemy : enemies) {
-        if (Physics::AABB(player.physics.getBounds(), enemy.getBounds())) {
+    for (auto it = enemies.begin(); it != enemies.end(); ) {
+        if (Physics::AABB(player.physics.getBounds(), it->getBounds())) {
             player.reduceHealth(20); // Reduce health by 20
+            it = enemies.erase(it); // Remove the enemy that collided
+        }
+        else {
+            ++it; // Only increment if we didn't erase
         }
     }
 
