@@ -314,12 +314,25 @@ void Game::update(Time dt) {
 
     // Enemy spawning logic
     timeSinceLastSpawn += dt.asSeconds();
-    if (timeSinceLastSpawn >= spawnRate) {
+    difficultyTimer += dt.asSeconds(); // Update the difficulty timer
+
+    // Gradually decrease the spawn rate over the course of a minute
+    if (difficultyTimer < 60.0f) {
+        currentSpawnRate = baseSpawnRate - (difficultyTimer / 60.0f) * (baseSpawnRate - 1.0f); // Slowly increase spawn rate
+    }
+    else {
+        // After a minute, reset the difficulty timer and increase the number of enemies per spawn
+        difficultyTimer = 0.0f;
+        currentEnemiesPerSpawn += 1; // Add one more enemy per spawn
+        currentSpawnRate = baseSpawnRate; // Reset spawn rate to base value
+    }
+
+    if (timeSinceLastSpawn >= currentSpawnRate) {
         std::random_device rand; // Seed
         std::mt19937 gen(rand()); // Random number generator
         std::uniform_real_distribution<float> distance(0.f, static_cast<float>(window.getSize().y - 50.f)); // Adjust height range
 
-        for (int i = 0; i < enemiesPerSpawn; ++i) {
+        for (int i = 0; i < currentEnemiesPerSpawn; ++i) {
             Enemy enemy;
 
             float y = distance(gen); // Generate a random y position
@@ -329,6 +342,7 @@ void Game::update(Time dt) {
 
         timeSinceLastSpawn = 0.0f; // Reset the spawn timer
     }
+
 
 
 
