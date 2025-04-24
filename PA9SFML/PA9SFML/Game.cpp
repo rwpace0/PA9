@@ -25,8 +25,8 @@ void Game::renderPlatforms()
     float screenHeight = window.getSize().y;
 
 
-    float platformWidth = screenwidth * 0.25f;
-    float platformheight = screenHeight * 0.02f;
+    float platformWidth = screenwidth * 0.125f;
+    float platformheight = screenHeight * 0.01f;
 
     float r1 = screenHeight * 0.85f;
     float r2 = screenHeight * 0.72f;
@@ -42,21 +42,21 @@ void Game::renderPlatforms()
    
     movePlatform.emplace_back(
         Vector2f(screenwidth /2- platformWidth / 2, r1),
-        Vector2f(platformWidth, platformheight),Movement::horizontal,
+        Vector2f(platformWidth/1.5f, platformheight),Movement::horizontal,
        speed,distance_direction
 
     );
     /*second row with two platforms that dont move*/
     platforms.emplace_back(
         Vector2f(spacing - platformWidth / 2, r2),
-        Vector2f(platformWidth, platformheight)
+        Vector2f(platformWidth/1.5f, platformheight)
 
 
     );
 
     platforms.emplace_back(
         Vector2f(spacing * 3 - platformWidth / 2, r2),
-        Vector2f(platformWidth, platformheight)
+        Vector2f(platformWidth/1.5f, platformheight)
 
 
     );
@@ -66,7 +66,7 @@ void Game::renderPlatforms()
   
     platforms.emplace_back(
         Vector2f(spacing * 0.6f - platformWidth / 2, r3),
-        Vector2f(platformWidth, platformheight)
+        Vector2f(platformWidth/1.5f, platformheight)
 
     );
 
@@ -75,14 +75,14 @@ void Game::renderPlatforms()
 
     movePlatform.emplace_back(
         Vector2f(spacing * 2 - platformWidth / 2, r3),
-        Vector2f(platformWidth, platformheight),Movement::Vertical,
+        Vector2f(platformWidth/1.5f, platformheight),Movement::Vertical,
         vertical_speed,vertical_distance
 
     );
 
     platforms.emplace_back(
         Vector2f(spacing * 3.4f - platformWidth / 2, r3),
-        Vector2f(platformWidth, platformheight)
+        Vector2f(platformWidth/1.5f, platformheight)
 
     );
     /*top platforms that dont move*/
@@ -91,13 +91,13 @@ void Game::renderPlatforms()
 
     platforms.emplace_back(
         Vector2f(spacing - platformWidth/2, r4),
-        Vector2f(platformWidth, platformheight)
+        Vector2f(platformWidth/1.5f, platformheight)
     
     );
 
     platforms.emplace_back(
         Vector2(spacing * 3 - platformWidth/2, r4),
-        Vector2f(platformWidth,platformheight)
+        Vector2f(platformWidth/1.5f,platformheight)
     );
 
    enemies.push_back(Enemy());
