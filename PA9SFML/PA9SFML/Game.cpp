@@ -137,7 +137,7 @@ void Game::run() {
             handlePausedState(dt);
             break;
         case GameState::GAME_OVER:
-            // Handle game over state
+            handleGameOverState(dt);
             break;
         }
     }
@@ -239,12 +239,86 @@ void Game::handlePausedState(sf::Time dt) {
     }
 }
 
-
-
-
-void Game::updatePlayer()
+void Game::handleGameOverState(Time dt)
 {
-    
+    static bool gameOverDrawn = false;
+
+    if (!gameOverDrawn) {
+        // draw game state frozen
+        render();
+
+        // Draw overlay
+        sf::RectangleShape overlay;
+        overlay.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
+        overlay.setFillColor(sf::Color(0, 0, 0, 128)); // Semi-transparent black
+        window.draw(overlay);
+
+        sf::Text gameOverText(font, "GAME OVER", 100);
+        gameOverText.setFillColor(sf::Color::Red);
+
+        // CENTER
+        sf::FloatRect bounds = gameOverText.getLocalBounds();
+        sf::Vector2f newOrigin{
+            (bounds.position.x + bounds.size.x) * 0.5f,
+            (bounds.position.y + bounds.size.y) * 0.5f
+        };
+        gameOverText.setOrigin(newOrigin);
+
+        sf::Vector2f pos{
+            static_cast<float>(window.getSize().x) * 0.5f,
+            static_cast<float>(window.getSize().y) * 0.5f
+        };
+        gameOverText.setPosition(pos);
+
+        window.draw(gameOverText);
+
+        sf::Text restartText(font, "Press Enter to Restart", 50);
+        restartText.setFillColor(sf::Color::White);
+
+        bounds = restartText.getLocalBounds();
+        newOrigin = {
+            (bounds.position.x + bounds.size.x) * 0.5f,
+            (bounds.position.y + bounds.size.y) * 0.5f
+        };
+        restartText.setOrigin(newOrigin);
+
+        pos.y += 100.f; // Position below the game over text
+        restartText.setPosition(pos);
+
+
+        // escape
+        sf::Text exitText(font, "Press Escape to Exit", 50);
+        exitText.setFillColor(sf::Color::White);
+
+        bounds = exitText.getLocalBounds();
+        newOrigin = {
+            (bounds.position.x + bounds.size.x) * 0.5f,
+            (bounds.position.y + bounds.size.y) * 0.5f
+        };
+        exitText.setOrigin(newOrigin);
+
+        pos.y += 40.f; // Position below the game over text
+        exitText.setPosition(pos);
+
+        window.draw(restartText);
+        window.draw(exitText);
+        window.display();
+
+        gameOverDrawn = true;
+    }
+    // Check for restart input
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Enter) && lastInputTime >= inputCooldown) {
+        // Reset the game
+        player.reset();
+        enemies.clear(); // Clear enemies
+        gameClock.restart(); // Reset the timer
+        currentState = GameState::PLAYING;
+        lastInputTime = 0.0f;
+    }
+    else  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape) && lastInputTime >= inputCooldown) {
+        window.close();
+    }
+
 }
 
 void Game::renderPlayer()
@@ -295,7 +369,17 @@ void Game::update(Time dt) {
         }
     }
 
+    if (player.isDead()) {
+        currentState = GameState::GAME_OVER;
+        gameOverDrawn = false;
+        return;
+    }
+
     player.update(dt);
+
+    if (player.physics.position.y > window.getSize().y) {
+        player.reduceHealth(player.getHealth()); // Reduce health to 0
+    }
 
     updatePlatformMoving(dt);
 

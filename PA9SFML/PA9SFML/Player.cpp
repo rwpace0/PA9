@@ -26,7 +26,7 @@ void Player::initSprite() {
 
 void Player::initTexture() {
     if (!texture.loadFromFile("Textures/player_walk_2.png")) {
-        throw std::runtime_error("Failed to load player texture");
+        throw std::runtime_error("Failed to load player texture, Player.cpp");
     }
 }
 
@@ -53,7 +53,6 @@ void Player::reduceHealth(int amount) {
 
     if (health <= 0) {
         std::cout << "Game Over!" << std::endl;
-        exit(0); // Exit the game for now
     }
 }
 
@@ -114,5 +113,25 @@ void Player::jump(float force) {
     if (physics.isGrounded) {
         physics.velocity.y = force;
         physics.isGrounded = false;
+    }
+}
+
+void Player::reset()
+{
+    health = 100;
+    lastHitTime = 0.f;
+
+    physics.position = startPos;
+    physics.velocity = { 0.f, 0.f };
+    physics.isGrounded = false;
+    physics.collidedWithMovingPlatform = false;
+    physics.platformVelocity = { 0.f, 0.f };
+
+    // Reset sprite position
+    if (sprite.has_value()) {
+        sprite->setPosition(Vector2(
+            physics.position.x + physics.size.x / 2.f,
+            physics.position.y + physics.size.y / 2.f
+        ));
     }
 }
