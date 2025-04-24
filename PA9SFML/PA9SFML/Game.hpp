@@ -25,8 +25,8 @@ public:
 
 	//for now running the window
 	void run();
-	void setSpawnRate(float rate) { spawnRate = rate; }
-	void setEnemiesPerSpawn(int count) { enemiesPerSpawn = count; }
+	void setSpawnRate(float rate) { currentSpawnRate = rate; }
+	void setEnemiesPerSpawn(int count) { currentEnemiesPerSpawn = count; }
 
 	enum class GameState {
 		MENU,
@@ -80,10 +80,13 @@ private:
 
 
 	//ENEMY Spawning Variables
-	float spawnRate = 2.0f; // Default spawn rate in seconds
 	float timeSinceLastSpawn = 0.0f; // Tracks time since the last enemy spawn
-	sf::Time enemySpawnInterval = sf::seconds(spawnRate);
-	int enemiesPerSpawn = 2;
+	float baseSpawnRate = 2.0f; // The original spawn rate in seconds
+	float currentSpawnRate = baseSpawnRate; // The current spawn rate
+	int baseEnemiesPerSpawn = 1; // The original number of enemies per spawn
+	int currentEnemiesPerSpawn = baseEnemiesPerSpawn; // The current number of enemies per spawn
+	float difficultyTimer = 0.0f;
+	sf::Time enemySpawnInterval = sf::seconds(currentSpawnRate);
 
 
 	std::vector<PlatformMoving> movePlatform;
