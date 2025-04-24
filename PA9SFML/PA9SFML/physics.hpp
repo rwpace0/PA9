@@ -31,27 +31,6 @@ struct PhysicsComponent {
         position += velocity * deltaTime;
         acceleration = { 0, 0 }; // Reset acceleration
     }
-
-    // Debug visualization
-    sf::RectangleShape getDebugShape() const {
-        sf::RectangleShape debugShape(size);
-        debugShape.setPosition(position);
-        debugShape.setFillColor(sf::Color(255, 0, 0, 120)); // Semi-transparent red
-
-        // Color-code collision types
-        if (collidedWithProjectile) {
-            debugShape.setOutlineColor(sf::Color::Magenta);
-        }
-        else if (collidedWithMovingPlatform) {
-            debugShape.setOutlineColor(sf::Color::Cyan);
-        }
-        else {
-            debugShape.setOutlineColor(sf::Color::White);
-        }
-
-        debugShape.setOutlineThickness(1.5f);
-        return debugShape;
-    }
 };
 
 namespace Physics {
@@ -61,7 +40,4 @@ namespace Physics {
         const sf::FloatRect& staticObj,
         const sf::Vector2f& platformVelocity = sf::Vector2f(0, 0)
     );
-
-    // Optional: Global debug draw helper
-    void drawDebug(sf::RenderTarget& target, const PhysicsComponent& phys);
 }

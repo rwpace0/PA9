@@ -38,7 +38,6 @@ void Player::initStartPos() {
 
 void Player::draw(sf::RenderTarget& target) const {
     target.draw(*sprite); // Draw actual sprite
-    Physics::drawDebug(target, physics); // Draw hitbox (red)
 }
 
 void Player::reduceHealth(int amount) {
