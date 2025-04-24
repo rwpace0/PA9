@@ -79,6 +79,7 @@ private:
 
 	std::vector<Enemy> enemies;
 
+	void draw(sf::RenderTarget& target) const;
 
 	//ENEMY Spawning Variables
 	float timeSinceLastSpawn = 0.0f; // Tracks time since the last enemy spawn
@@ -89,7 +90,9 @@ private:
 	float difficultyTimer = 0.0f;
 	sf::Time enemySpawnInterval = sf::seconds(currentSpawnRate);
 
-
+	sf::Texture backTexture;
+	std::optional<Sprite> backSprite;
+	
 	std::vector<PlatformMoving> movePlatform;
 
 	bool gameOverDrawn = false;

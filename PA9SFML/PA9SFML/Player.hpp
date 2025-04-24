@@ -30,7 +30,7 @@ private:
     sf::Texture texture;
     std::optional<sf::Sprite> sprite;
     sf::Vector2f startPos;
-    const float JUMP_FORCE = -600.f;
+    const float JUMP_FORCE = -800.f;
 
     sf::Font healthFont;
     sf::Text* healthText;
