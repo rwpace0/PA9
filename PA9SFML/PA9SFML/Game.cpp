@@ -6,7 +6,7 @@ Game::Game() {
 
     
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
-    window.create(desktopMode, "Game Name", Style::None);
+    window.create(desktopMode, "Beagle Mayhem", Style::None);
     window.setFramerateLimit(frameLimit);
     
     if (!backTexture.loadFromFile("Textures/background1.jpg")) {

@@ -5,7 +5,7 @@ Menu::Menu(RenderWindow& window) : window(window) {
     if (!font.openFromFile("Fonts/pixelfont.otf")) {
         throw std::runtime_error("Failed to load Pixel Font, Menu.cpp");
     }
-    titleText = new sf::Text(font, "Game Name", 100);
+    titleText = new sf::Text(font, "Beagle Mayhem", 100);
     titleText->setFillColor(sf::Color::White);
 
     // CENTER
