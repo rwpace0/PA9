@@ -3,6 +3,7 @@
 #define test_hpp
 
 #include "Enemy.hpp"
+#include "Player.hpp"
 #include <SFML/Graphics.hpp>
 
 class test {
@@ -22,6 +23,11 @@ public:
 
 	static bool run_tests();
 
+	static bool test_health();
+
+	static bool test_player_speed();
+
+	static bool test_player_position();
 
 };
 
