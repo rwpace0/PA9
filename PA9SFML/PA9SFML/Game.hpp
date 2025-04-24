@@ -28,6 +28,10 @@ public:
 	void setSpawnRate(float rate) { currentSpawnRate = rate; }
 	void setEnemiesPerSpawn(int count) { currentEnemiesPerSpawn = count; }
 
+	/*bool runtests();*/
+	/*bool Testmode = false;
+	void setTestmode(bool enabled) { Testmode = enabled; }*/
+
 	enum class GameState {
 		MENU,
 		PLAYING,

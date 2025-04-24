@@ -1,6 +1,6 @@
 #pragma once
 #include "Game.hpp"
-
+#include "test.hpp"
 
 Game::Game() {
 
@@ -38,6 +38,7 @@ Game::Game() {
 void Game::draw(sf::RenderTarget& target) const {
     target.draw(*backSprite);
 }
+
 
 void Game::renderPlatforms()
 {
@@ -167,6 +168,8 @@ void Game::run() {
 
 void Game::processEvents(Time dt) {
     lastInputTime += dt.asSeconds();
+
+
 
     while (const auto event = window.pollEvent()) {
         if (event->is<sf::Event::Closed>()) {
