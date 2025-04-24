@@ -24,3 +24,6 @@ Try to survive the ever increasing onslaught of beagles for as long as possible!
 And don't worry, if you do lose you can always hit Enter to try again!
 
 Now that you know the game, all you have to do is open the solution to hit build and run!
+
+Video Demo:
+https://vimeo.com/1078233310?share=copy
