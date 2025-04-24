@@ -6,11 +6,14 @@
 
 
 
+
 class Enemy : public Entity
 {
 public:
 
     Enemy();
+
+    ~Enemy() = default;
 
     void update(sf::Time dt) override;
     void draw(sf::RenderTarget& target) const override;
@@ -24,11 +27,17 @@ public:
 
 
 private:
+
+    void initSprite();
+    static void initTexture();
+   
+
     sf::Vector2f startPos;
 	sf::RectangleShape shape;
 	float moveSpeed;
 
-
+    static Texture texture;
+    std::optional<Sprite> sprite;
 };
 
 

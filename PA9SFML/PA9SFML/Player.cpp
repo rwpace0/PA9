@@ -6,6 +6,26 @@ Player::Player() : startPos(400.f, 30.f) {
     initSprite();
     initStartPos();
 
+    if (!healthFont.openFromFile("Fonts/pixelfont.otf")) { 
+        throw std::runtime_error("Failed to load health display font");
+    }
+
+    healthText = new sf::Text(healthFont, "Health: 100", 24);
+    healthText->setFillColor(sf::Color::White);
+
+    //bot left
+    healthText->setPosition(Vector2f(20.f, 1100.f)); // 
+
+    
+    healthBarBackground.setSize(sf::Vector2f(200.f, 20.f));
+    healthBarBackground.setFillColor(sf::Color(100, 100, 100));
+    healthBarBackground.setPosition(Vector2f(20.f, 1100.f)); // Above the text
+
+    // init health bar
+    healthBar.setSize(sf::Vector2f(200.f, 20.f));
+    healthBar.setFillColor(sf::Color::Green);
+    healthBar.setPosition(Vector2f(20.f, 1100.f));
+
     // Match hitbox to texture size (or scale proportionally)
     auto texSize = texture.getSize();
     physics.size = {
@@ -14,6 +34,10 @@ Player::Player() : startPos(400.f, 30.f) {
     };
 
     physics.position = startPos;
+}
+
+Player::~Player() {
+    delete healthText;
 }
 
 void Player::initSprite() {
@@ -25,7 +49,7 @@ void Player::initSprite() {
 }
 
 void Player::initTexture() {
-    if (!texture.loadFromFile("Textures/player_walk_2.png")) {
+    if (!texture.loadFromFile("Textures/player.png")) {
         throw std::runtime_error("Failed to load player texture, Player.cpp");
     }
 }
@@ -36,8 +60,32 @@ void Player::initStartPos() {
     physics.isPlayer = true;
 }
 
+void Player::updateHealthDisplay()
+{
+    healthText->setString("Health: " + std::to_string(health));
+
+    
+    float healthPercentage = static_cast<float>(health) / 100.f;
+    healthBar.setSize(sf::Vector2f(200.f * healthPercentage, 20.f));
+
+    
+    if (health >= 80) {
+        healthBar.setFillColor(sf::Color::Green);
+    }
+    else if (health >= 20) {
+        healthBar.setFillColor(sf::Color::Yellow);
+    }
+    else {
+        healthBar.setFillColor(sf::Color::Red);
+    }
+}
+
+
 void Player::draw(sf::RenderTarget& target) const {
-    target.draw(*sprite); // Draw actual sprite
+    target.draw(*sprite);
+    target.draw(healthBarBackground);
+    target.draw(healthBar);
+    target.draw(*healthText);
 }
 
 void Player::reduceHealth(int amount) {
@@ -46,6 +94,8 @@ void Player::reduceHealth(int amount) {
 
     health -= amount;
     std::cout << "Player health: " << health << std::endl;
+
+    updateHealthDisplay();
 
     // Update the last hit time
     lastHitTime = 0.f;
@@ -108,6 +158,7 @@ void Player::update(sf::Time dt) {
 
 
 
+
 void Player::jump(float force) {
     if (physics.isGrounded) {
         physics.velocity.y = force;
@@ -119,6 +170,7 @@ void Player::reset()
 {
     health = 100;
     lastHitTime = 0.f;
+    updateHealthDisplay();
 
     physics.position = startPos;
     physics.velocity = { 0.f, 0.f };

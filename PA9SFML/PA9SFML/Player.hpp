@@ -5,6 +5,7 @@
 class Player : public Entity {
 public:
     Player();
+    ~Player();
 
     void update(sf::Time dt) override;
     void draw(sf::RenderTarget& target) const override;
@@ -30,6 +31,12 @@ private:
     std::optional<sf::Sprite> sprite;
     sf::Vector2f startPos;
     const float JUMP_FORCE = -600.f;
+
+    sf::Font healthFont;
+    sf::Text* healthText;
+    sf::RectangleShape healthBarBackground;
+    sf::RectangleShape healthBar;
+    void updateHealthDisplay();
 
     int health = 100; // Player starts with 100 health
     float lastHitTime = 0.f; // Time since the last hit
