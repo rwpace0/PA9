@@ -28,6 +28,10 @@ public:
 	void setSpawnRate(float rate) { currentSpawnRate = rate; }
 	void setEnemiesPerSpawn(int count) { currentEnemiesPerSpawn = count; }
 
+	/*bool runtests();*/
+	/*bool Testmode = false;
+	void setTestmode(bool enabled) { Testmode = enabled; }*/
+
 	enum class GameState {
 		MENU,
 		PLAYING,
@@ -79,6 +83,7 @@ private:
 
 	std::vector<Enemy> enemies;
 
+	void draw(sf::RenderTarget& target) const;
 
 	//ENEMY Spawning Variables
 	float timeSinceLastSpawn = 0.0f; // Tracks time since the last enemy spawn
@@ -89,7 +94,9 @@ private:
 	float difficultyTimer = 0.0f;
 	sf::Time enemySpawnInterval = sf::seconds(currentSpawnRate);
 
-
+	sf::Texture backTexture;
+	std::optional<Sprite> backSprite;
+	
 	std::vector<PlatformMoving> movePlatform;
 
 	bool gameOverDrawn = false;

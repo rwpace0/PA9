@@ -1,12 +1,30 @@
 #pragma once
 #include "Game.hpp"
-
+#include "test.hpp"
 
 Game::Game() {
 
+    
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     window.create(desktopMode, "Game Name", Style::None);
     window.setFramerateLimit(frameLimit);
+    
+    if (!backTexture.loadFromFile("Textures/background1.jpg")) {
+        throw std::runtime_error("Failed to load background, Game.cpp");
+
+    }
+
+    backSprite.emplace(backTexture);
+    
+
+    backSprite->setTexture(backTexture);
+    sf::Vector2u texSize = backTexture.getSize();
+    sf::Vector2u winSize = window.getSize();
+    backSprite->setScale(
+        Vector2f((winSize.x),
+        (winSize.y))
+    );
+    
     
     initTime();
     renderPlatforms();
@@ -15,6 +33,10 @@ Game::Game() {
     
    
 
+}
+
+void Game::draw(sf::RenderTarget& target) const {
+    target.draw(*backSprite);
 }
 
 
@@ -147,6 +169,8 @@ void Game::run() {
 void Game::processEvents(Time dt) {
     lastInputTime += dt.asSeconds();
 
+
+
     while (const auto event = window.pollEvent()) {
         if (event->is<sf::Event::Closed>()) {
             window.close();
@@ -175,8 +199,9 @@ void Game::processEvents(Time dt) {
 
 void Game::handleMenuState(sf::Time dt) {
     window.clear(sf::Color(30, 30, 30)); // Dark background for menu
-
+    
     if (menu) {
+        
         menu->update(dt.asSeconds());
         menu->draw();
 
@@ -187,7 +212,9 @@ void Game::handleMenuState(sf::Time dt) {
 
             switch (selectedItem) {
             case 0: //Play
+                
                 currentState = GameState::PLAYING;
+               
                 // reset game state if neccessary
                 gameClock.restart();
                 break;
@@ -206,6 +233,7 @@ void Game::handleMenuState(sf::Time dt) {
 
 void Game::handlePlayingState(sf::Time dt) {
     //update and render the game
+    
     update(dt);
     render();
 }
@@ -482,7 +510,7 @@ void Game::update(Time dt) {
 
 void Game::render() {
     window.clear();
-    
+    window.draw(*backSprite);
 
     // Draw platforms
     for (auto& platform : platforms) {
@@ -506,7 +534,7 @@ void Game::render() {
         
         enemy.draw(window);
     }
-
+    
     window.display();
 }
 
