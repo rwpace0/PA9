@@ -9,10 +9,12 @@ public:
     void update(sf::Time dt) override;
     void draw(sf::RenderTarget& target) const override;
     void jump(float force);
+    void reset();
 
     // Health-related methods
     void reduceHealth(int amount);
     int getHealth() const { return health; }
+    bool isDead() const { return health <= 0; }
 
     // Cooldown-related methods
     bool canTakeDamage() const;

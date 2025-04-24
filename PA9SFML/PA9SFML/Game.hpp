@@ -46,6 +46,7 @@ private:
 	void handleMenuState(sf::Time dt);
 	void handlePlayingState(sf::Time dt);
 	void handlePausedState(sf::Time dt);
+	void handleGameOverState(Time dt);
 
 
 	//functions
@@ -91,6 +92,7 @@ private:
 
 	std::vector<PlatformMoving> movePlatform;
 
+	bool gameOverDrawn = false;
 
 };
 
