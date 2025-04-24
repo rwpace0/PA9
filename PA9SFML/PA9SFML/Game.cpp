@@ -7,12 +7,12 @@ Game::Game() {
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     window.create(desktopMode, "Game Name", Style::None);
     window.setFramerateLimit(frameLimit);
-
+    
     initTime();
     renderPlatforms();
 
     menu = new Menu(window);
-    // Create a floor at the bottom of the screen
+    
    
 
 }
@@ -481,6 +481,7 @@ void Game::update(Time dt) {
 
 void Game::render() {
     window.clear();
+    
 
     // Draw platforms
     for (auto& platform : platforms) {
@@ -501,6 +502,7 @@ void Game::render() {
 
     // Render enemies
     for (auto& enemy : enemies) {
+        
         enemy.draw(window);
     }
 

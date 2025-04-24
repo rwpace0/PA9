@@ -28,15 +28,16 @@ public:
 
 private:
 
-    void initTexture();
     void initSprite();
+    static void initTexture();
+   
 
     sf::Vector2f startPos;
 	sf::RectangleShape shape;
 	float moveSpeed;
 
-    Texture texture;
-    Sprite sprite;
+    static Texture texture;
+    std::optional<Sprite> sprite;
 };
 
 
