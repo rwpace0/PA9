@@ -254,8 +254,6 @@ void Game::handlePausedState(sf::Time dt) {
 
 void Game::handleGameOverState(Time dt)
 {
-    static bool gameOverDrawn = false;
-
     if (!gameOverDrawn) {
         // draw game state frozen
         render();
@@ -324,6 +322,9 @@ void Game::handleGameOverState(Time dt)
         // Reset the game
         player.reset();
         enemies.clear(); // Clear enemies
+		currentSpawnRate = baseSpawnRate; // Reset spawn rate
+		currentEnemiesPerSpawn = baseEnemiesPerSpawn; // Reset enemies per spawn
+		difficultyTimer = 0.f; // Reset difficulty timer
         gameClock.restart(); // Reset the timer
         currentState = GameState::PLAYING;
         lastInputTime = 0.0f;

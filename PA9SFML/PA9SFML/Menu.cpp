@@ -27,8 +27,7 @@ Menu::Menu(RenderWindow& window) : window(window) {
     float startY = window.getSize().y * 0.4f;
 
     menuItems.emplace_back(font, "Start", sf::Vector2f(window.getSize().x / 2.0f, startY));
-    menuItems.emplace_back(font, "Options", sf::Vector2f(window.getSize().x / 2.0f, startY + verticalSpacing));
-    menuItems.emplace_back(font, "Exit", sf::Vector2f(window.getSize().x / 2.0f, startY + verticalSpacing * 2));
+    menuItems.emplace_back(font, "Exit", sf::Vector2f(window.getSize().x / 2.0f, startY + verticalSpacing));
 
     //set first item as selected
     menuItems[selectedItemIndex].setSelected(true);
