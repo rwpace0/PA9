@@ -145,24 +145,31 @@ void Game::run() {
 
 
 void Game::processEvents(Time dt) {
-    lastInputTime += dt.asSeconds(); // Update the cooldown timer
+    lastInputTime += dt.asSeconds();
+
+    while (const auto event = window.pollEvent()) {
+        if (event->is<sf::Event::Closed>()) {
+            window.close();
+        }
+    }
 
     if (currentState == GameState::MENU && menu) {
         menu->handleInput(dt.asSeconds());
     }
 
-    // Handle pause/unpause with cooldown
-    if (lastInputTime >= inputCooldown && sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Escape)) {
+    if (lastInputTime >= inputCooldown && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
         if (currentState == GameState::PLAYING) {
             currentState = GameState::PAUSED;
-            isPaused = false; // Reset the flag when entering the pause state
+            isPaused = false;
         }
         else if (currentState == GameState::PAUSED) {
             currentState = GameState::PLAYING;
+            isPaused = false;
         }
-        lastInputTime = 0.0f; // Reset the cooldown timer
+        lastInputTime = 0.0f;
     }
 }
+
 
 
 
@@ -236,6 +243,12 @@ void Game::handlePausedState(sf::Time dt) {
         window.display();
 
         isPaused = true; // Mark the pause menu as rendered
+    }
+    // Allow input to resume game
+    while (const auto event = window.pollEvent()) {
+        if (event->is<sf::Event::Closed>()) {
+            window.close();
+        }
     }
 }
 
@@ -369,9 +382,15 @@ void Game::update(Time dt) {
         }
     }
 
+    // Allow essential updates during pause
+    if (currentState == GameState::PAUSED) {
+        // Handle input or other essential updates here
+        return;
+    }
+
     if (player.isDead()) {
         currentState = GameState::GAME_OVER;
-        gameOverDrawn = false;
+        gameOverDrawn = false; // Reset the game-over flag
         return;
     }
 
@@ -406,7 +425,6 @@ void Game::update(Time dt) {
 
     updateTime();
 
-
     // Enemy spawning logic
     timeSinceLastSpawn += dt.asSeconds();
     difficultyTimer += dt.asSeconds(); // Update the difficulty timer
@@ -438,11 +456,8 @@ void Game::update(Time dt) {
         timeSinceLastSpawn = 0.0f; // Reset the spawn timer
     }
 
-
-
-
     // Update enemies and remove those that move off-screen
-    for (auto it = enemies.begin(); it != enemies.end(); ) {
+    for (auto it = enemies.begin(); it != enemies.end();) {
         it->update(dt);
 
         // Check if the enemy is off-screen
@@ -453,9 +468,9 @@ void Game::update(Time dt) {
             ++it; // Move to the next enemy
         }
     }
-
-
 }
+
+
 
 
 
@@ -468,21 +483,23 @@ void Game::render() {
         platform.draw(window);
     }
 
-    for (auto& platform : movePlatform) {
-        platform.draw(window);
+    // Draw moving platforms only if the game is not paused
+    if (currentState != GameState::PAUSED) {
+        for (auto& platform : movePlatform) {
+            platform.draw(window);
+        }
     }
+
     // Draw the player
     renderPlayer();
 
-
     window.draw(*timeText);
 
-    //Render Enemy
-    for (auto& enemy : enemies)
-    {
+    // Render enemies
+    for (auto& enemy : enemies) {
         enemy.draw(window);
     }
 
-
     window.display();
 }
+
