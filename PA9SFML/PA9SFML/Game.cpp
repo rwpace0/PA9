@@ -25,14 +25,17 @@ void Game::renderPlatforms()
     float screenHeight = window.getSize().y;
 
 
-    float platformWidth = 250.f;
-    float platformheight = 25.f;
+    float platformWidth = screenwidth * 0.25f;
+    float platformheight = screenHeight * 0.02f;
 
     float r1 = screenHeight * 0.85f;
-    float r2 = screenHeight * 0.7f;
-    float r3 = screenHeight * 0.55f;
-    float r4 = screenHeight * 0.3f;
+    float r2 = screenHeight * 0.72f;
+    float r3 = screenHeight * 0.60f;
+    float r4 = screenHeight * 0.45f;
 
+
+    float speed = screenwidth * 0.075f;
+    float distance_direction = screenwidth * 0.15f;
 
     float spacing = screenwidth / 4.f;
     /*bottom platforms that moves side to side*/
@@ -40,12 +43,12 @@ void Game::renderPlatforms()
     movePlatform.emplace_back(
         Vector2f(screenwidth /2- platformWidth / 2, r1),
         Vector2f(platformWidth, platformheight),Movement::horizontal,
-        150.f,300.f
+       speed,distance_direction
 
     );
     /*second row with two platforms that dont move*/
     platforms.emplace_back(
-        Vector2f(spacing  - platformWidth / 2, r2),
+        Vector2f(spacing - platformWidth / 2, r2),
         Vector2f(platformWidth, platformheight)
 
 
@@ -62,31 +65,39 @@ void Game::renderPlatforms()
 
   
     platforms.emplace_back(
-        Vector2f(spacing - platformWidth / 2, r3),
+        Vector2f(spacing * 0.6f - platformWidth / 2, r3),
         Vector2f(platformWidth, platformheight)
 
     );
+
+    float vertical_speed = screenHeight * 0.05f;
+    float vertical_distance = screenHeight * 0.075f;
 
     movePlatform.emplace_back(
         Vector2f(spacing * 2 - platformWidth / 2, r3),
         Vector2f(platformWidth, platformheight),Movement::Vertical,
-        100.f,150.f
+        vertical_speed,vertical_distance
 
     );
 
     platforms.emplace_back(
-        Vector2f(spacing * 3 - platformWidth / 2, r3),
+        Vector2f(spacing * 3.4f - platformWidth / 2, r3),
         Vector2f(platformWidth, platformheight)
 
     );
-    /*top platforms that moves side to side*/
+    /*top platforms that dont move*/
 
     spacing = screenwidth / 4.f;
 
-    movePlatform.emplace_back(
-        Vector2f(spacing * 2 - platformWidth / 2, r4),
-        Vector2f(platformWidth, platformheight),
-        Movement::horizontal,200.f,350.f
+    platforms.emplace_back(
+        Vector2f(spacing - platformWidth/2, r4),
+        Vector2f(platformWidth, platformheight)
+    
+    );
+
+    platforms.emplace_back(
+        Vector2(spacing * 3 - platformWidth/2, r4),
+        Vector2f(platformWidth,platformheight)
     );
 
    enemies.push_back(Enemy());
